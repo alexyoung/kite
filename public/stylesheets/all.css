@@ -1,0 +1,10 @@
+body { font-family: arial, sans-serif; font-size: 80% }
+h1, h2, h3, h4 { margin: 10px 0 }
+h1 { font-size: 1.5em }
+h2 { font-size: 1.2em }
+p { font-size: 1em; }
+ul.examples { list-style-type: none; padding: 0 }
+ul.examples li { margin-bottom: 3px }
+ul.examples li span { font-family: courier, fixed; background-color: #ffc }
+img#Logo { float: left; margin-right: 1em }
+p#Footer { font-size: 1em; color: #777; margin-top: 2em; }

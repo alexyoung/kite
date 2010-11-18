@@ -1,0 +1,21 @@
+# Define this kite's site
+name 'hmv'
+description 'HMV.co.uk search'
+default 'price_search'
+tags 'shops'
+hits 5
+
+# Record URLs used by this site
+site do
+  home 'http://www.hmv.co.uk'
+  search 'http://www.hmv.co.uk/hmvweb/simpleSearch.do?pGroupID=-1&simpleSearchString=%s'
+end
+
+# Define tasks to be performed on this site
+task 'price', :args => 'query' do
+  # All tasks should usually 'get' something.  The results are stored internally for find_ operations
+  get(site.search, query)
+
+  # save adds the results to the result set, for_each loops through items found with a selector, and then searches within those results
+  save for_each('div.results-pane', :find_first => ['h2', 'p.price'])
+end

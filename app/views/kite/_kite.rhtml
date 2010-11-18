@@ -1,0 +1,7 @@
+<h2>Kite: <%= h(kite.name) %></h2>
+
+<p><%= h(kite.description) %></p>
+
+<%= render :partial => 'task', :collection => kite.tasks %>
+
+<p>Tags: <%= tag_links(kite) %></p>

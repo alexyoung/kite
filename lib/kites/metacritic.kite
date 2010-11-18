@@ -1,0 +1,15 @@
+description 'Metacritic search'
+name 'metacritic'
+default 'score'
+tags 'ratings'
+hits 5
+
+site do
+  home 'http://www.metacritic.com'
+  search 'http://www.metacritic.com/search/process?sb=0&tfs=all&ts=%s&ty=0&x=0&y=0'
+end
+
+task 'score', :args => 'query' do
+  get(site.search, query)
+  save for_each('td#rightcolumn p', :find_first => ['a b', 'span'])
+end

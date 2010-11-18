@@ -1,0 +1,15 @@
+description 'Boots search'
+name 'boots'
+default 'price_search'
+tags 'shops'
+hits 5
+
+site do
+  home 'http://www.boots.com'
+  search 'http://www.boots.com/guidedsearch/newsearch.jsp?searchArea=1&searchTerm=%s&Go.x=0&Go.y=0&uri=%2Fonlineexperience%2Fflexible_template_2006_publish.jsp&classificationId=1043920&contentId=&articleId=&N=0&Ntk=all&Nty=1'
+end
+
+task 'price', :args => 'query' do
+  get(site.search, query)
+  save for_each('ul.searchResults', :find_first => ['td a.productLink', 'td p'])
+end

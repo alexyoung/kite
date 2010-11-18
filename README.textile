@@ -1,0 +1,5 @@
+h3. Kite
+
+Kite is a mobile web search experiment that uses a DSL to define small scrapers, called 'Kites', that can find product information from web pages.
+
+Kite was originally released in March 2007, and has since been discontinued and open sourced.

@@ -1,0 +1,15 @@
+description 'Play.com search'
+name 'play'
+default 'price_search'
+tags 'shops'
+hits 5
+
+site do
+  home 'http://play.com/'
+  search 'http://play.com/Search.aspx?searchtype=allproducts&searchstring=%s&page=search&pa=search&go.x=0&go.y=0'
+end
+
+task 'price', :args => 'query' do
+  get(site.search, query)
+  save for_each('div.info', :find_first => ['h5', 'h6'])
+end

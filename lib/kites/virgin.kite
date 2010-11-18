@@ -1,0 +1,24 @@
+description 'Virgin Megastore search'
+name 'virgin'
+default 'price_search'
+tags 'shops'
+hits 5
+
+site do
+  home 'http://www.virginmegastores.co.uk'
+  search 'http://www.virginmegastores.co.uk/bin/venda?ex=co_wizr-xapian&threshold=50&bsref=virgin&searchfld=&searchpage=0&searchinvt=1&searchstry=0&searchlike=1&itemsperpage=10&srchopt=V%2CD&carryfields=V%2CD&SYNALL=1&V=&searchex=%s&searchsubmit.x=0&searchsubmit.y=0'
+end
+
+task 'price', :args => 'query' do
+  get(site.search, query)
+  save for_each('div.details', :find_first => ['li a', 'div.prices span.sell'])
+end
+
+# task 'price_search', :args => 'query' do
+#   get(site.search, @args.query)
+# 
+#   find_links_to site.item do |item|
+#     get item
+#     collect_result([replace_tags(find_first('h1'), ' '), find_first('span.sellnew')])
+#   end
+# end

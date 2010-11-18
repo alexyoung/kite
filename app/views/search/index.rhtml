@@ -1,0 +1,9 @@
+<%= render :partial => 'search/form' %>
+<% if @results.size == 0 -%>
+  <p>There were no matches for your query.</p>
+<% else -%>
+  <h3>Results</h3>
+  <ul>
+    <%= render :partial => 'search/result', :collection => @results %>
+  </ul>
+<% end -%>

@@ -1,0 +1,29 @@
+description 'Amazon search'
+name 'amazon'
+default 'price_search'
+tags 'shops'
+hits 5
+
+site do
+  home 'http://amazon.co.uk/'
+  search 'http://amazon.co.uk/s/ref=nb_ss_w_h_/026-3775253-3228404?url=search-alias%3Daps&field-keywords=%s&Go.x=0&Go.y=0&Go=Go'
+end
+
+task 'price', :args => 'query' do
+  get(site.search, query)
+  
+  # Get sale price items
+  for_each('table.searchresults td', :find_first => ['span.srTitle', 'span.saleprice']).each do |item|
+    collect_result item if item[1]
+  end
+
+  # Get 'other' items
+  for_each('table.searchresults td', :find_first => ['span.srTitle', 'span.otherprice']).each do |item|
+    collect_result item if item[1]
+  end
+
+  # Get normal items
+  for_each('table.searchresults td', :find_first => ['span.srTitle', 'span.sr_price']).each do |item|
+    collect_result item if item[1]
+  end
+end

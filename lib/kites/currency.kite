@@ -1,0 +1,43 @@
+description 'Currency conversions'
+name 'currency'
+default 'convert'
+tags 'money'
+hits 5
+
+currency_map = {
+  'JPY' => ['jpy', 'yen', '¥'],
+  'USD' => ['dollar', 'usd', 'us dollar'],
+  'GBP' => ['pounds sterling', 'pound sterling', '£', 'pound']
+}
+
+site do
+  currency_conversion 'http://www.ecb.int/stats/exchange/eurofxref/html/index.en.html'
+end
+
+task 'convert', :args => ['from_name', 'to_name', 'amount'] do
+  currency_data = get_data
+
+  from_value = currency_data.find { |data| match_currency(data[0], from_name) }[1].to_f
+  to_value = currency_data.find { |data| match_currency(data[0], to_name) }[1].to_f
+
+  save ((1 / from_value) * amount.to_f) / (1 / to_value)
+end
+
+task 'private get_data' do
+  get site.currency_conversion
+  find 'table.tablestats tbody tr' do |row|
+    collect_result find_text(['td[@headers="aa"]', 'td[@headers="ac"]'], row)
+  end
+end
+
+task 'private match_currency', :args => ['currency_name', 'query'] do
+  match = if currency_name == query.upcase.singularize
+    true
+  else
+    if currency_map.include? currency_name
+      currency_map[currency_name].find { |currency_alias| query.singularize.downcase == currency_alias }
+    end
+  end
+  
+  save match
+end
